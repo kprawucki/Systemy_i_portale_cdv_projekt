@@ -6,11 +6,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
+    // Debugowanie: wyświetl dane wejściowe
+    echo "Podany login: " . htmlspecialchars($username) . "<br>";
+    echo "Podane hasło: " . htmlspecialchars($password) . "<br>";
+
     $sql = "SELECT * FROM users WHERE username=:username AND password=:password";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':username', $username);
     $stmt->bindParam(':password', $password);
     $stmt->execute();
+
+    // Debugowanie: wyświetl liczbę wyników
+    echo "Liczba wyników: " . $stmt->rowCount() . "<br>";
 
     if ($stmt->rowCount() > 0) {
         $_SESSION['loggedin'] = true;
