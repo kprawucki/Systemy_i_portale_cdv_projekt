@@ -8,13 +8,21 @@ if (!isset($_SESSION['loggedin'])) {
 include 'db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id = $_POST['id'];
+    $id = intval($_POST['id']);
 
-    $sql = "DELETE FROM passwords WHERE id='$id'";
-    if ($conn->query($sql) === TRUE) {
-        header('Location: dashboard.php');
-    } else {
-        echo "Error: " . $conn->error;
+    try {
+        // Przygotowanie i wykonanie zapytania SQL do usunięcia rekordu
+        $stmt = $conn->prepare("DELETE FROM passwords WHERE id = ?");
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            header('Location: dashboard.php');
+            exit;
+        } else {
+            echo "Error: " . implode(" ", $stmt->errorInfo());
+        }
+    } catch (PDOException $e) {
+        echo "Błąd: " . $e->getMessage();
     }
 }
 ?>
