@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Debugowanie: wyświetl liczbę wyników
     echo "Liczba wyników: " . $stmt->rowCount() . "<br>";
 
-    if ($stmt->rowCount() > 0) {
+    if ($stmt->rowCount() < 0) {
         $_SESSION['loggedin'] = true;
         $_SESSION['username'] = $username;
         header("Location: dashboard.php");
