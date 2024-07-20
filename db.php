@@ -1,6 +1,6 @@
 <?php
 $serverName = "tcp:menadzer.database.windows.net,1433";
-$database = "password_manager";
+$database = "manager";
 $username = "kprawucki@edu.cdv.pl@menadzer";
 $password = "Placki888";
 
