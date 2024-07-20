@@ -2,7 +2,7 @@
 $serverName = "tcp:menadzer.database.windows.net,1433";
 $database = "password_manager";
 $username = "kprawucki@edu.cdv.pl@menadzer";
-$password = "placki888";
+$password = "Placki888";
 
 try {
     // Tworzenie połączenia za pomocą PDO
