@@ -16,21 +16,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bindParam(':password', $password);
     $stmt->execute();
 
-    // Debugowanie: wyświetl liczbę wyników
-    echo "Liczba wyników: " . $stmt->rowCount() . "<br>";
+    // Fetch a single row to check if user exists
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($stmt->rowCount() < 0) {
+    // Debugowanie: wyświetl dane użytkownika
+    if ($user) {
+        echo "Znaleziony użytkownik: " . htmlspecialchars(print_r($user, true)) . "<br>";
         $_SESSION['loggedin'] = true;
         $_SESSION['username'] = $username;
         header("Location: dashboard.php");
     } else {
+        echo "Błędne dane<br>";
+
         // Nowa część kodu: Pobieranie i wyświetlanie wszystkich danych z tabeli users
         $sql = "SELECT * FROM users";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        echo "<h2>Błędne dane. Zawartość tabeli 'users':</h2>";
+        echo "<h2>Zawartość tabeli 'users':</h2>";
         echo "<table border='1'>";
         echo "<tr><th>ID</th><th>Username</th><th>Password</th></tr>";
         foreach ($users as $user) {
