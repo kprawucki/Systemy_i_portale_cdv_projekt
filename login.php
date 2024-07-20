@@ -17,7 +17,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['username'] = $username;
         header("Location: dashboard.php");
     } else {
-        echo "Błędne dane";
+        // Nowa część kodu: Pobieranie i wyświetlanie wszystkich danych z tabeli users
+        $sql = "SELECT * FROM users";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        echo "<h2>Błędne dane. Zawartość tabeli 'users':</h2>";
+        echo "<table border='1'>";
+        echo "<tr><th>ID</th><th>Username</th><th>Password</th></tr>";
+        foreach ($users as $user) {
+            echo "<tr>";
+            echo "<td>" . htmlspecialchars($user['id']) . "</td>";
+            echo "<td>" . htmlspecialchars($user['username']) . "</td>";
+            echo "<td>" . htmlspecialchars($user['password']) . "</td>";
+            echo "</tr>";
+        }
+        echo "</table>";
     }
 }
 ?>
