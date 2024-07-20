@@ -1,16 +1,16 @@
 <?php
-$serverName = "tcp:menadzer.database.windows.net,1433";
-$database = "password_manager";
-$username = "kprawucki@edu.cdv.pl@menadzer";
-$password = "Placki888";
-
+// PHP Data Objects(PDO) Sample Code:
 try {
-    // Tworzenie połączenia za pomocą PDO
-    $conn = new PDO("sqlsrv:server=$serverName;Database=$database", $username, $password);
-    // Ustawienie trybu błędów PDO na wyjątki
+    $conn = new PDO("sqlsrv:server = tcp:menadzer.database.windows.net,1433; Database = password_manager", "kprawucki@edu.cdv.pl", "{your_password_here}");
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    echo "Błąd połączenia z bazą danych: " . $e->getMessage();
-    die();
 }
+catch (PDOException $e) {
+    print("Error connecting to SQL Server.");
+    die(print_r($e));
+}
+
+// SQL Server Extension Sample Code:
+$connectionInfo = array("UID" => "kprawucki@edu.cdv.pl@menadzer", "pwd" => "{your_password_here}", "Database" => "password_manager", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+$serverName = "tcp:menadzer.database.windows.net,1433";
+$conn = sqlsrv_connect($serverName, $connectionInfo);
 ?>
